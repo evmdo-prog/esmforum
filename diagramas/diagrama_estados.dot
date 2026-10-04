@@ -1,0 +1,21 @@
+digraph G {
+  rankdir=TB;
+  nodesep=1.2;
+  ranksep=1.0;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Diagrama de Estados: objeto Pergunta", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=14];
+  edge [fontname="Helvetica", fontsize=12, arrowhead=vee];
+
+  inicio [shape=circle, style=filled, fillcolor=black, label="", width=0.3, fixedsize=true];
+
+  sem [shape=box, style="rounded,filled", fillcolor="#FFEBD6", width=2.6, height=0.9,
+       label=<<b>Sem respostas</b><br/><font point-size="11">num_respostas = 0</font>>];
+  resp [shape=box, style="rounded,filled", fillcolor="#DFF7F0", width=2.6, height=0.9,
+       label=<<b>Respondida</b><br/><font point-size="11">num_respostas &gt;= 1</font>>];
+
+  inicio -> sem [label="  pergunta cadastrada"];
+  sem -> resp [label="  resposta cadastrada"];
+  resp -> resp [label="nova resposta\ncadastrada", tailport=e, headport=e];
+  sem -> sem [label="voto registrado /\ntag atribuída"];
+  resp -> resp [label="voto registrado /\ntag atribuída", tailport=w, headport=w];
+}
