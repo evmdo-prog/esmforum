@@ -1,0 +1,59 @@
+digraph G {
+  rankdir=TB;
+  nodesep=1.0;
+  ranksep=1.1;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4];
+  node [shape=plain, fontname="Helvetica", fontsize=13];
+  edge [fontname="Helvetica", fontsize=12, arrowhead=vee, arrowsize=0.9, labeldistance=2.2];
+
+  Usuario [label=<
+    <table border="1" cellborder="0" cellspacing="0" cellpadding="6" bgcolor="#F3E8FF">
+      <tr><td><b>Usuario</b></td></tr>
+      <hr/>
+      <tr><td align="left">+int id_usuario</td></tr>
+    </table>>];
+
+  Pergunta [label=<
+    <table border="1" cellborder="0" cellspacing="0" cellpadding="6" bgcolor="#DFF7F0">
+      <tr><td><b>Pergunta</b></td></tr>
+      <hr/>
+      <tr><td align="left">+int id_pergunta</td></tr>
+      <tr><td align="left">+string texto</td></tr>
+      <tr><td align="left">+int id_usuario</td></tr>
+    </table>>];
+
+  Resposta [label=<
+    <table border="1" cellborder="0" cellspacing="0" cellpadding="6" bgcolor="#FFEBD6">
+      <tr><td><b>Resposta</b></td></tr>
+      <hr/>
+      <tr><td align="left">+int id_resposta</td></tr>
+      <tr><td align="left">+int id_pergunta</td></tr>
+      <tr><td align="left">+string texto</td></tr>
+    </table>>];
+
+  Voto [label=<
+    <table border="1" cellborder="0" cellspacing="0" cellpadding="6" bgcolor="#D9F2FF">
+      <tr><td>&laquo;nova&raquo;</td></tr>
+      <tr><td><b>Voto</b></td></tr>
+      <hr/>
+      <tr><td align="left">+int id_voto</td></tr>
+      <tr><td align="left">+int id_pergunta</td></tr>
+      <tr><td align="left">+int id_usuario</td></tr>
+      <tr><td align="left">+string tipo</td></tr>
+    </table>>];
+
+  Tag [label=<
+    <table border="1" cellborder="0" cellspacing="0" cellpadding="6" bgcolor="#E3F8DA">
+      <tr><td>&laquo;nova&raquo;</td></tr>
+      <tr><td><b>Tag</b></td></tr>
+      <hr/>
+      <tr><td align="left">+int id_tag</td></tr>
+      <tr><td align="left">+string nome</td></tr>
+    </table>>];
+
+  Usuario -> Pergunta [label="  faz", taillabel="1", headlabel="0..*"];
+  Pergunta -> Resposta [label="  recebe", taillabel="1", headlabel="0..*"];
+  Usuario -> Voto [label="  realiza", taillabel="1", headlabel="0..*"];
+  Pergunta -> Voto [label="  recebe", taillabel="1", headlabel="0..*"];
+  Pergunta -> Tag [label="  classificada por", taillabel="0..*", headlabel="0..*"];
+}
