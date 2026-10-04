@@ -1,5 +1,11 @@
 const express = require('express')
 const modelo = require('./modelo.js');
+const bd = require('./bd/bd_utils.js');
+const { criar_repositorio_perguntas } = require('./busca/repositorio_perguntas.js');
+const { criar_servico_busca } = require('./busca/servico_busca.js');
+const { montar_filtros } = require('./busca/filtros.js');
+
+const servico_busca = criar_servico_busca(criar_repositorio_perguntas(bd));
 
 const app = express()
 app.use(express.json());
@@ -56,6 +62,16 @@ app.post('/respostas', (req, res) => {
   catch(erro) {
     res.status(500).json(erro.message); 
   } 
+});
+
+app.get('/busca', (req, res) => {
+  try {
+    const filtros = montar_filtros(req.query);
+    res.json(servico_busca.buscar(filtros));
+  }
+  catch(erro) {
+    res.status(500).json(erro.message);
+  }
 });
 
 // espera e trata requisições de clientes
