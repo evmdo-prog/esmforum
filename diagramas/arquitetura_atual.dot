@@ -1,0 +1,49 @@
+digraph G {
+  rankdir=TB;
+  nodesep=0.6;
+  ranksep=0.9; compound=true;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Arquitetura atual do ESM Forum", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11];
+
+  subgraph cluster_front {
+    label="Camada de Apresentação: frontend React (porta 3000, navegador)";
+    style="rounded,filled"; fillcolor="#F3E8FF"; fontsize=13;
+    menu [shape=box, style="rounded,filled", fillcolor="white", label="Pages/Menu.js"];
+    perg [shape=box, style="rounded,filled", fillcolor="white", label="Pages/Pergunta.js\n(Pergunta, NovaPergunta)"];
+    resp [shape=box, style="rounded,filled", fillcolor="white", label="Pages/Resposta.js\n(Resposta, NovaResposta)"];
+    sobre [shape=box, style="rounded,filled", fillcolor="white", label="Pages/Sobre.js"];
+  }
+
+  subgraph cluster_api {
+    label="Backend Node.js + Express (porta 5000)";
+    style="rounded,filled"; fillcolor="#EEF6FF"; fontsize=13;
+    subgraph cluster_rotas {
+      label="Rotas HTTP (API REST)"; style="rounded,filled"; fillcolor="#DDEBFF";
+      server [shape=box, style="rounded,filled", fillcolor="white", label="server.js\nGET /  POST /perguntas\nGET /respostas/:id  POST /respostas\nGET /busca"];
+    }
+    subgraph cluster_neg {
+      label="Camada de Negócio"; style="rounded,filled"; fillcolor="#DFF7F0";
+      modelo [shape=box, style="rounded,filled", fillcolor="white", label="modelo.js\n(perguntas e respostas)"];
+      busca [shape=box, style="rounded,filled", fillcolor="white", label="busca/\nservico_busca.js, filtros.js"];
+    }
+    subgraph cluster_dados_acesso {
+      label="Camada de Acesso a Dados"; style="rounded,filled"; fillcolor="#FFEBD6";
+      repo [shape=box, style="rounded,filled", fillcolor="white", label="busca/repositorio_perguntas.js"];
+      bdutils [shape=box, style="rounded,filled", fillcolor="white", label="bd/bd_utils.js\n(query, queryAll, exec)"];
+    }
+  }
+
+  subgraph cluster_bd {
+    label="Camada de Dados"; style="rounded,filled"; fillcolor="#FFF3C4"; fontsize=13;
+    db [shape=cylinder, style=filled, fillcolor="white", label="bd/esmforum.db\n(SQLite: perguntas, respostas)"];
+  }
+
+  perg -> server [label="  HTTP / JSON", ltail=cluster_front, lhead=cluster_rotas];
+  server -> modelo [label="  chama funções"];
+  server -> busca [label="  chama serviço"];
+  busca -> repo [label="  usa"];
+  modelo -> bdutils [label="  usa"];
+  repo -> bdutils [label="  usa"];
+  bdutils -> db [label="  SQL (better-sqlite3)"];
+}

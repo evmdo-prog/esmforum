@@ -1,7 +1,7 @@
 # Implementação com SOLID: Busca por palavra-chave
 
-Funcionalidade implementada: busca de perguntas por palavra-chave, escolhida
-na Parte 2 (`HISTORIAS.md`, História 1).
+Funcionalidade implementada: busca de perguntas por palavra-chave, um dos
+cinco cards do board da Parte 1 e a História 1 da Parte 2 (`HISTORIAS.md`).
 
 Rota nova: `GET /busca?q=palavra`. Sem o parâmetro `q`, devolve todas as
 perguntas. A busca ignora maiúsculas, minúsculas e acentos.

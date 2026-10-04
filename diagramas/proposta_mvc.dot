@@ -1,0 +1,38 @@
+digraph G {
+  rankdir=TB;
+  nodesep=0.8;
+  ranksep=0.85;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Proposta: MVC para busca e votação", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11];
+
+  cli [shape=box, style="rounded,filled", fillcolor="#F3E8FF", label="Cliente (React)"];
+  rotas [shape=box, style="rounded,filled", fillcolor="#DDEBFF", label="Rotas\nGET /busca?q=\nPOST /votos"];
+
+  subgraph cluster_c {
+    label="Controllers"; style="rounded,filled"; fillcolor="#DDEBFF"; fontsize=13;
+    cb [shape=box, style="rounded,filled", fillcolor="white", label="BuscaController\nbuscar(req, res)"];
+    cv [shape=box, style="rounded,filled", fillcolor="white", label="VotoController\nvotar(req, res)"];
+  }
+  subgraph cluster_m {
+    label="Models (dados e operações)"; style="rounded,filled"; fillcolor="#DFF7F0"; fontsize=13;
+    mp [shape=box, style="rounded,filled", fillcolor="white", label="Pergunta\nid_pergunta, texto,\nid_usuario, num_respostas\nbuscar(filtros)"];
+    mv [shape=box, style="rounded,filled", fillcolor="white", label="Voto\nid_voto, id_pergunta,\nid_usuario, tipo\nregistrar(), total(id_pergunta)"];
+  }
+  subgraph cluster_v {
+    label="Views (formatação do JSON)"; style="rounded,filled"; fillcolor="#FFEBD6"; fontsize=13;
+    vp [shape=box, style="rounded,filled", fillcolor="white", label="PerguntaView\nlista(perguntas) -> JSON"];
+    vv [shape=box, style="rounded,filled", fillcolor="white", label="VotoView\nresultado(total) -> JSON"];
+  }
+  db [shape=cylinder, style=filled, fillcolor="#FFF3C4", label="SQLite"];
+
+  cli -> rotas [label="  1. requisição"];
+  rotas -> cb;
+  rotas -> cv;
+  cb -> mp [label="  2. consulta"];
+  cv -> mv [label="  2. consulta"];
+  mp -> db [dir=both, label="  3. dados"];
+  mv -> db [dir=both, label="  3. dados"];
+  cb -> vp [label="  4. formata"];
+  cv -> vv [label="  4. formata"];
+}

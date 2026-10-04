@@ -1,0 +1,19 @@
+digraph G {
+  rankdir=BT;
+  nodesep=0.8;
+  ranksep=1.0;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Padrão Adapter: isolamento do banco de dados", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11];
+  BancoDeDados [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#E8E8FF"><tr><td>&laquo;interface (Target)&raquo;</td></tr><tr><td><b><i>BancoDeDados</i></b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+consultar_um(sql, params)</td></tr><tr><td align="left">+consultar_todos(sql, params)</td></tr><tr><td align="left">+executar(sql, params)</td></tr></table>>];
+  RepositorioPerguntas [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#FFEBD6"><tr><td><b>RepositorioPerguntas</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+listar_com_num_respostas()</td></tr></table>>];
+  AdaptadorBetterSqlite3 [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#DFF7F0"><tr><td>&laquo;Adapter&raquo;</td></tr><tr><td><b>AdaptadorBetterSqlite3</b></td></tr><hr/><tr><td align="left">-bd: Database</td></tr><hr/><tr><td align="left">+consultar_um(sql, params)</td></tr><tr><td align="left">+consultar_todos(sql, params)</td></tr><tr><td align="left">+executar(sql, params)</td></tr></table>>];
+  AdaptadorPostgres [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#DFF7F0"><tr><td>&laquo;Adapter (proposto)&raquo;</td></tr><tr><td><b>AdaptadorPostgres</b></td></tr><hr/><tr><td align="left">-pool: Pool</td></tr><hr/><tr><td align="left">+consultar_um(sql, params)</td></tr><tr><td align="left">+consultar_todos(sql, params)</td></tr><tr><td align="left">+executar(sql, params)</td></tr></table>>];
+  better_sqlite3 [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#F3E8FF"><tr><td>&laquo;Adaptee&raquo;</td></tr><tr><td><b>better_sqlite3</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+prepare(sql).get / all / run</td></tr></table>>];
+  pg [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#F3E8FF"><tr><td>&laquo;Adaptee (proposto)&raquo;</td></tr><tr><td><b>pg</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+pool.query(sql, params)</td></tr></table>>];
+  AdaptadorBetterSqlite3 -> BancoDeDados [arrowhead=empty, style=dashed];
+  AdaptadorPostgres -> BancoDeDados [arrowhead=empty, style=dashed];
+  RepositorioPerguntas -> BancoDeDados [arrowhead=vee, label="  usa"];
+  better_sqlite3 -> AdaptadorBetterSqlite3 [arrowhead=vee, dir=back, arrowtail=vee, label="  delega em", constraint=true];
+  pg -> AdaptadorPostgres [arrowhead=vee, dir=back, arrowtail=vee, label="  delega em"];
+}

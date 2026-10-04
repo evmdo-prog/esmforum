@@ -1,0 +1,40 @@
+digraph G {
+  rankdir=TB;
+  nodesep=0.8;
+  ranksep=0.8; compound=true;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Proposta: organização em camadas", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11];
+
+  cli [shape=box, style="rounded,filled", fillcolor="#F3E8FF", label="Frontend React\n(cliente HTTP)"];
+
+  subgraph cluster_apres {
+    label="Camada de Apresentação (API)"; style="rounded,filled"; fillcolor="#DDEBFF"; fontsize=13;
+    rotas [shape=box, style="rounded,filled", fillcolor="white", label="rotas/\nperguntas.js, respostas.js,\nbusca.js, votos.js"];
+    ctrl [shape=box, style="rounded,filled", fillcolor="white", label="controladores/\nrecebem a requisição,\nvalidam a entrada e\nchamam o serviço"];
+    vis [shape=box, style="rounded,filled", fillcolor="white", label="visoes/\nformatam a resposta JSON"];
+  }
+
+  subgraph cluster_neg {
+    label="Camada de Negócio (regras da aplicação)"; style="rounded,filled"; fillcolor="#DFF7F0"; fontsize=13;
+    serv [shape=box, style="rounded,filled", fillcolor="white", label="servicos/\nServicoBusca, ServicoVotos,\nServicoRespostas"];
+    mod [shape=box, style="rounded,filled", fillcolor="white", label="modelos/\nPergunta, Resposta, Voto, Tag\n(dados e regras de domínio)"];
+  }
+
+  subgraph cluster_dados {
+    label="Camada de Dados"; style="rounded,filled"; fillcolor="#FFEBD6"; fontsize=13;
+    repos [shape=box, style="rounded,filled", fillcolor="white", label="repositorios/\nRepositorioPerguntas,\nRepositorioVotos, RepositorioTags"];
+    ad [shape=box, style="rounded,filled", fillcolor="white", label="bd/\nAdaptador do banco (bd_utils)"];
+  }
+
+  db [shape=cylinder, style=filled, fillcolor="#FFF3C4", label="SQLite\nesmforum.db"];
+
+  cli -> rotas [label="  HTTP / JSON"];
+  rotas -> ctrl;
+  ctrl -> serv [label="  chama"];
+  ctrl -> vis [label="  formata com"];
+  serv -> mod [label="  usa"];
+  serv -> repos [label="  usa (injetado)"];
+  repos -> ad;
+  ad -> db [label="  SQL"];
+}

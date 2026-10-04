@@ -1,0 +1,17 @@
+digraph G {
+  rankdir=BT;
+  nodesep=0.8;
+  ranksep=1.0;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Padrão Observer: notificação de novas respostas", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11];
+  Observador [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#E8E8FF"><tr><td>&laquo;interface&raquo;</td></tr><tr><td><b><i>Observador</i></b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+atualizar(evento)</td></tr></table>>];
+  ServicoRespostas [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#FFEBD6"><tr><td><b>ServicoRespostas</b></td></tr><hr/><tr><td align="left">-observadores: Observador[]</td></tr><hr/><tr><td align="left">+registrar_observador(observador)</td></tr><tr><td align="left">+cadastrar_resposta(id_pergunta, texto)</td></tr><tr><td align="left">-notificar(evento)</td></tr></table>>];
+  NotificadorInterno [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#DFF7F0"><tr><td><b>NotificadorInterno</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+atualizar(evento)</td></tr></table>>];
+  NotificadorEmail [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#DFF7F0"><tr><td><b>NotificadorEmail</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+atualizar(evento)</td></tr></table>>];
+  EventoNovaResposta [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#F3E8FF"><tr><td><b>EventoNovaResposta</b></td></tr><hr/><tr><td align="left">+id_pergunta</td></tr><tr><td align="left">+id_resposta</td></tr><tr><td align="left">+texto</td></tr><hr/><tr><td> </td></tr></table>>];
+  NotificadorInterno -> Observador [arrowhead=empty, style=dashed];
+  NotificadorEmail -> Observador [arrowhead=empty, style=dashed];
+  ServicoRespostas -> Observador [dir=back, arrowtail=odiamond, arrowhead=none, taillabel="1", headlabel="0..*", labeldistance=2.2, label="  notifica"];
+  ServicoRespostas -> EventoNovaResposta [style=dashed, arrowhead=vee, label="  cria", constraint=false];
+}

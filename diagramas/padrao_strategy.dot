@@ -1,0 +1,17 @@
+digraph G {
+  rankdir=BT;
+  nodesep=0.8;
+  ranksep=1.0;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Padrão Strategy: ordenação da lista de perguntas", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11];
+  EstrategiaOrdenacao [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#E8E8FF"><tr><td>&laquo;interface&raquo;</td></tr><tr><td><b><i>EstrategiaOrdenacao</i></b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+ordenar(perguntas)</td></tr></table>>];
+  ListagemPerguntas [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#FFEBD6"><tr><td><b>ListagemPerguntas</b></td></tr><hr/><tr><td align="left">-repositorio</td></tr><tr><td align="left">-estrategia: EstrategiaOrdenacao</td></tr><hr/><tr><td align="left">+definir_estrategia(estrategia)</td></tr><tr><td align="left">+listar()</td></tr></table>>];
+  OrdenarPorData [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#DFF7F0"><tr><td><b>OrdenarPorData</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+ordenar(perguntas)</td></tr></table>>];
+  OrdenarPorVotos [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#DFF7F0"><tr><td><b>OrdenarPorVotos</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+ordenar(perguntas)</td></tr></table>>];
+  OrdenarPorNumRespostas [shape=plain, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="5" bgcolor="#DFF7F0"><tr><td><b>OrdenarPorNumRespostas</b></td></tr><hr/><tr><td> </td></tr><hr/><tr><td align="left">+ordenar(perguntas)</td></tr></table>>];
+  OrdenarPorData -> EstrategiaOrdenacao [arrowhead=empty, style=dashed];
+  OrdenarPorVotos -> EstrategiaOrdenacao [arrowhead=empty, style=dashed];
+  OrdenarPorNumRespostas -> EstrategiaOrdenacao [arrowhead=empty, style=dashed];
+  ListagemPerguntas -> EstrategiaOrdenacao [arrowhead=vee, label="  usa"];
+}
