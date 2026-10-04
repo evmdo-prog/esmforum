@@ -1,0 +1,38 @@
+digraph G {
+  rankdir=TB;
+  nodesep=0.7;
+  ranksep=0.55;
+  graph [fontname="Helvetica", bgcolor="white", pad=0.4, label="Diagrama de Atividades: Busca de perguntas por palavra-chave", labelloc=t, fontsize=16];
+  node [fontname="Helvetica", fontsize=13];
+  edge [fontname="Helvetica", fontsize=12, arrowhead=vee];
+
+  inicio [shape=circle, style=filled, fillcolor=black, label="", width=0.3, fixedsize=true];
+  fim [shape=doublecircle, style=filled, fillcolor=black, label="", width=0.3, fixedsize=true];
+
+  a1 [shape=box, style="rounded,filled", fillcolor="#DFF7F0", label="Usuário abre a tela de perguntas"];
+  a2 [shape=box, style="rounded,filled", fillcolor="#DFF7F0", label="Sistema exibe a lista completa de perguntas"];
+  a3 [shape=box, style="rounded,filled", fillcolor="#DFF7F0", label="Usuário digita uma palavra-chave no campo de busca"];
+
+  d1 [shape=diamond, style=filled, fillcolor="#FFF3C4", label="Campo\nvazio?"];
+
+  a4 [shape=box, style="rounded,filled", fillcolor="#DFF7F0", label="Sistema busca as perguntas cujo texto contém\na palavra (sem diferenciar maiúsculas de minúsculas)"];
+
+  d2 [shape=diamond, style=filled, fillcolor="#FFF3C4", label="Encontrou\nresultados?"];
+
+  a5 [shape=box, style="rounded,filled", fillcolor="#D9F2FF", label="Sistema exibe somente as\nperguntas encontradas"];
+  a6 [shape=box, style="rounded,filled", fillcolor="#FFEBD6", label="Sistema exibe a mensagem\n\"Nenhuma pergunta encontrada\""];
+  a7 [shape=box, style="rounded,filled", fillcolor="#D9F2FF", label="Sistema exibe a lista completa\nde perguntas"];
+
+  m [shape=diamond, style=filled, fillcolor="white", label="", width=0.35, height=0.35, fixedsize=true];
+
+  inicio -> a1 -> a2 -> a3 -> d1;
+  d1 -> a7 [label="  [sim]"];
+  d1 -> a4 [label="  [não]"];
+  a4 -> d2;
+  d2 -> a5 [label="  [sim]"];
+  d2 -> a6 [label="  [não]"];
+  a5 -> m;
+  a6 -> m;
+  a7 -> m;
+  m -> fim;
+}
