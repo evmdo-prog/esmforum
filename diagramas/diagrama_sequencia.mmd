@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor U as :Usuario
+    participant F as :Frontend
+    participant A as :API (server.js)
+    participant M as :Modelo (modelo.js)
+    participant B as :Banco (SQLite)
+
+    U->>F: clica em upvote/downvote
+    F->>A: POST /votos (id_pergunta, tipo)
+    A->>M: registrar_voto(id_pergunta, tipo)
+    M->>B: SELECT voto do usuario na pergunta
+    B-->>M: voto existente ou nenhum
+
+    alt ainda nao votou
+        M->>B: INSERT voto
+    else votou o tipo oposto
+        M->>B: UPDATE voto (troca o tipo)
+    else votou o mesmo tipo
+        M->>M: mantem o voto (ja computado)
+    end
+
+    M->>B: SELECT total de votos da pergunta
+    B-->>M: total
+    M-->>A: total
+    A-->>F: 200 (total)
+    F-->>U: exibe total atualizado
